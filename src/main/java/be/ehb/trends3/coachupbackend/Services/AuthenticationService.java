@@ -1,25 +1,29 @@
 package be.ehb.trends3.coachupbackend.Services;
 
+import be.ehb.trends3.coachupbackend.Exceptions.AccountNotFoundException;
 import be.ehb.trends3.coachupbackend.Models.Account;
 import be.ehb.trends3.coachupbackend.Repositories.AccountRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Service
+@CrossOrigin(origins = "*")
 public class AuthenticationService {
 
-    private static Map<String, String> loginSessions;
+    private static HashMap<String, String> loginSessions = new HashMap<String, String>();
 
     @Autowired
     private AccountRepository accountRepository;
 
     public String login (String email, String password) {
         //Check if email exists
-        Account foundAccount = accountRepository.findByEmail(email);
+        List<Account> foundAccounts = (accountRepository.findAccountByEmail(email));
+        if(foundAccounts.size() != 1){throw new AccountNotFoundException();}
+        Account foundAccount = foundAccounts.get(0);
         if(foundAccount != null)
         {
             if(email.equals(foundAccount.getEmail()) && password.equals(foundAccount.getPassword()))
@@ -33,16 +37,18 @@ public class AuthenticationService {
         return null;
     }
 
-    public void logout(String Authtoken) {
-        loginSessions.remove(Authtoken);
+    public void logout(String authToken) {
+        loginSessions.remove(authToken);
     }
 
     public boolean isLoggedIn (String Authtoken) {
         if(Authtoken != null)
         {
-            String Email = loginSessions.get(Authtoken);
-            if (Email != null) {
-                Account foundAccount = accountRepository.findByEmail(Email);
+            String email = loginSessions.get(Authtoken);
+            if (email != null) {
+                List<Account> foundAccounts = (accountRepository.findAccountByEmail(email));
+                if(foundAccounts.size() != 1){throw new AccountNotFoundException();}
+                Account foundAccount = foundAccounts.get(0);
                 if(foundAccount != null) {
                     return true;
                 }
@@ -51,6 +57,24 @@ public class AuthenticationService {
             return false;
         }
         return false;
+    }
+
+    public Account loggedInAccount (String Authtoken) {
+        if(Authtoken != null)
+        {
+            String email = loginSessions.get(Authtoken);
+            if (email != null) {
+                List<Account> foundAccounts = (accountRepository.findAccountByEmail(email));
+                if(foundAccounts.size() != 1){throw new AccountNotFoundException();}
+                Account foundAccount = foundAccounts.get(0);
+                if(foundAccount != null) {
+                    return foundAccount;
+                }
+                return null;
+            }
+            return null;
+        }
+        return null;
     }
 
 }

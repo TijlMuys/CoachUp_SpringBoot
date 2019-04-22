@@ -1,17 +1,17 @@
 package be.ehb.trends3.coachupbackend.Models;
 
 public class LoginResponse {
-    String Authtoken;
+    String authToken;
 
     public LoginResponse() {
 
     }
 
-    public String getAuthtoken() {
-        return Authtoken;
+    public String getAuthToken() {
+        return authToken;
     }
 
-    public void setAuthtoken(String authtoken) {
-        Authtoken = authtoken;
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
     }
 }

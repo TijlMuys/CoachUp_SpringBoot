@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "3000")
+//@CrossOrigin(origins = "3000")
+@CrossOrigin(origins = "*")
 @RequestMapping("/Accounts")
 public class AccountController {
 
@@ -40,13 +41,15 @@ public class AccountController {
     }
 
     @PostMapping("")
-    public Account create (@RequestHeader String authToken, @RequestBody Account account)
+    public Account create (/*@RequestHeader String authToken,*/ @RequestBody Account account)
     {
+        /*
         if(! authenticationService.isLoggedIn(authToken))
         {
             throw new NotLoggedInException();
         }
-        account.setAccountId(null);
+        */
+        account.setId(null);
         return accountRepository.save(account);
     }
 

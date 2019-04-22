@@ -1,50 +1,28 @@
 package be.ehb.trends3.coachupbackend.Models;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import org.hibernate.annotations.GenericGenerator;
+public class AccountResponse {
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-
-@Entity
-public class Account {
-
-    @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(name = "PR_KEY")
     private String id;
 
-    @NotNull
-    @Column(unique = true)
+
     private String email;
 
-    @NotNull
+
     private String userName;
 
-    @NotNull
-    private String password;
-
-    @NotNull
     private String accountType;
 
-    @NotNull
     private String street;
 
-    @NotNull
     private String number;
 
-    @NotNull
     private String zipCode;
 
-    @NotNull
     private String city;
 
-    @NotNull
     private Boolean agreedConditions;
 
-    public Account() {
+    public AccountResponse() {
     }
 
     public String getId() {
@@ -70,15 +48,6 @@ public class Account {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getAccountType() {
         return accountType;
     }
