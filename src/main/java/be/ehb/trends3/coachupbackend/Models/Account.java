@@ -41,8 +41,20 @@ public class Account {
     @NotNull
     private String city;
 
+    private String coordinates;
+
     @NotNull
     private Boolean agreedConditions;
+
+    private String phone;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sporter_id")
+    private Sporter sporter;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "coach_id")
+    private Coach coach;
 
     public Account() {
     }
@@ -119,6 +131,14 @@ public class Account {
         this.city = city;
     }
 
+    public String getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(String coordinates) {
+        this.coordinates = coordinates;
+    }
+
     public Boolean getAgreedConditions() {
         return agreedConditions;
     }
@@ -126,4 +146,30 @@ public class Account {
     public void setAgreedConditions(Boolean agreedConditions) {
         this.agreedConditions = agreedConditions;
     }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Sporter getSporter() {
+        return sporter;
+    }
+
+    public void setSporter(Sporter sporter) {
+        this.sporter = sporter;
+    }
+
+    public Coach getCoach() {
+        return coach;
+    }
+
+    public void setCoach(Coach coach) {
+        this.coach = coach;
+    }
+
+
 }
