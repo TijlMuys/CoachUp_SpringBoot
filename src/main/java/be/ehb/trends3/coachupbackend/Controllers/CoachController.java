@@ -8,6 +8,8 @@ import be.ehb.trends3.coachupbackend.Services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 //@CrossOrigin(origins = "3000")
 @CrossOrigin(origins = "*")
@@ -38,6 +40,21 @@ public class CoachController {
             throw new NotLoggedInException();
         }
         return coachRepository.findById(Id).orElseThrow(CoachNotFoundException::new);
+    }
+
+    @GetMapping("/search/{accountId}")
+    public Coach findByAccountId (@RequestHeader String authToken, @PathVariable String accountId)
+    {
+        if(! authenticationService.isLoggedIn(authToken))
+        {
+            throw new NotLoggedInException();
+        }
+        List<Coach> coachList = coachRepository.findCoachByAccountId(accountId);
+        if(coachList.size() != 1) {
+            throw new CoachNotFoundException();
+        }
+        Coach foundcoach = coachList.get(0);
+        return foundcoach;
     }
 
     @PostMapping("")

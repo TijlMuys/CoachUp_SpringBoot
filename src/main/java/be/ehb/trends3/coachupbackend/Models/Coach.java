@@ -1,10 +1,13 @@
 package be.ehb.trends3.coachupbackend.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@Entity
 public class Coach {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -12,18 +15,25 @@ public class Coach {
     @Column(name = "PR_KEY")
     private String id;
 
+    @Column(columnDefinition = "TEXT")
     private String profileText;
 
+    private String profileImg;
+
+    @JsonManagedReference
     @OneToOne(mappedBy = "coach", cascade = CascadeType.ALL,
             fetch = FetchType.LAZY, optional = true)
     private Account account;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "coach", cascade = CascadeType.ALL)
     private Set<Rating> ratings;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "coach", cascade = CascadeType.ALL)
     private Set<Lesson> lessons;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "coach", cascade = CascadeType.ALL)
     private Set<TrainEntry> trainEntries;
 
@@ -40,6 +50,14 @@ public class Coach {
 
     public void setProfileText(String profileText) {
         this.profileText = profileText;
+    }
+
+    public String getProfileImg() {
+        return profileImg;
+    }
+
+    public void setProfileImg(String profileImg) {
+        this.profileImg = profileImg;
     }
 
     public void setId(String id) {
@@ -84,6 +102,14 @@ public class Coach {
     }
 
     public void setTrainEntries(Set<TrainEntry> trainEntries) {
+        this.trainEntries = trainEntries;
+    }
+
+    public Coach(String profileText, Account account, Set<Rating> ratings, Set<Lesson> lessons, Set<TrainEntry> trainEntries) {
+        this.profileText = profileText;
+        this.account = account;
+        this.ratings = ratings;
+        this.lessons = lessons;
         this.trainEntries = trainEntries;
     }
 }

@@ -1,10 +1,12 @@
 package be.ehb.trends3.coachupbackend.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@Entity
 public class Rating {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -17,6 +19,7 @@ public class Rating {
 
     private String comment;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn
     private Coach coach;
@@ -54,6 +57,12 @@ public class Rating {
     }
 
     public void setCoach(Coach coach) {
+        this.coach = coach;
+    }
+
+    public Rating(@NotNull double score, String comment, Coach coach) {
+        this.score = score;
+        this.comment = comment;
         this.coach = coach;
     }
 }

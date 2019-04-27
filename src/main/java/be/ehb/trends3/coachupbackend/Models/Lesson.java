@@ -1,5 +1,7 @@
 package be.ehb.trends3.coachupbackend.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -7,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Lesson {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -17,21 +20,30 @@ public class Lesson {
     @NotNull
     private String lessonName;
 
+    @NotNull
+    @Column(columnDefinition = "TEXT")
+    private String lessonDescription;
+
+    @NotNull
     private int difficulty;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn
     private Location lessonLocation;
 
+    @JsonBackReference
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "coach_key")
     private Coach coach;
 
-    @ManyToMany
-    @JoinTable(name = "lesson_sport",
-            joinColumns = { @JoinColumn(name = "fk_lesson") },
-            inverseJoinColumns = { @JoinColumn(name = "fk_sport") })
-    private List<Sport> sports = new ArrayList<Sport>();
+    @Column(name = "coach_key", insertable = false, updatable = false)
+    private String coach_key;
+
+    @JsonManagedReference
+    @ManyToOne
+    @JoinColumn
+    private Sport sport;
 
     public Lesson() {
     }
@@ -76,11 +88,27 @@ public class Lesson {
         this.coach = coach;
     }
 
-    public List<Sport> getSports() {
-        return sports;
+    public Sport getSport() {
+        return sport;
     }
 
-    public void setSports(List<Sport> sports) {
-        this.sports = sports;
+    public void setSport(Sport sport) {
+        this.sport = sport;
+    }
+
+    public String getLessonDescription() {
+        return lessonDescription;
+    }
+
+    public String getCoach_key() {
+        return coach_key;
+    }
+
+    public void setCoach_key(String coach_key) {
+        this.coach_key = coach_key;
+    }
+
+    public void setLessonDescription(String lessonDescription) {
+        this.lessonDescription = lessonDescription;
     }
 }

@@ -8,6 +8,10 @@ import be.ehb.trends3.coachupbackend.Services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 @RestController
 //@CrossOrigin(origins = "3000")
 @CrossOrigin(origins = "*")
@@ -27,7 +31,7 @@ public class SportController {
         {
             throw new NotLoggedInException();
         }
-        return sportRepository.findAll();
+        return sportRepository.findAllByOrderBySportNameAsc();
     }
 
     @GetMapping("/{Id}")
@@ -48,7 +52,6 @@ public class SportController {
         {
             throw new NotLoggedInException();
         }
-        sport.setId(null);
         return sportRepository.save(sport);
     }
 

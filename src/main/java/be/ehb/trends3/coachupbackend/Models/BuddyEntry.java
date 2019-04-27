@@ -1,10 +1,13 @@
 package be.ehb.trends3.coachupbackend.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
 
+@Entity
 public class BuddyEntry {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -17,14 +20,17 @@ public class BuddyEntry {
 
     boolean isApproved;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn
     private Location buddyLocation;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn
     private Sporter requestingsporter;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn
     private Sporter replyingsporter;
@@ -78,6 +84,14 @@ public class BuddyEntry {
     }
 
     public void setReplyingsporter(Sporter replyingsporter) {
+        this.replyingsporter = replyingsporter;
+    }
+
+    public BuddyEntry(Date meetingDateTime, boolean isApproved, Location buddyLocation, Sporter requestingsporter, Sporter replyingsporter) {
+        this.meetingDateTime = meetingDateTime;
+        this.isApproved = isApproved;
+        this.buddyLocation = buddyLocation;
+        this.requestingsporter = requestingsporter;
         this.replyingsporter = replyingsporter;
     }
 }

@@ -1,5 +1,6 @@
 package be.ehb.trends3.coachupbackend.Models;
 
+import com.fasterxml.jackson.annotation.*;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -8,6 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@JsonIgnoreProperties(value={ "password" }, allowSetters= true)
 public class Account {
 
     @Id
@@ -23,6 +25,7 @@ public class Account {
     @NotNull
     private String userName;
 
+    @JsonProperty("password")
     @NotNull
     private String password;
 
@@ -48,10 +51,14 @@ public class Account {
 
     private String phone;
 
+
+    @JsonBackReference
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sporter_id")
     private Sporter sporter;
 
+
+    @JsonBackReference
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "coach_id")
     private Coach coach;
@@ -171,5 +178,19 @@ public class Account {
         this.coach = coach;
     }
 
-
+    public Account(@NotNull String email, @NotNull String userName, @NotNull String password, @NotNull String accountType, @NotNull String street, @NotNull String number, @NotNull String zipCode, @NotNull String city, String coordinates, @NotNull Boolean agreedConditions, String phone, Sporter sporter, Coach coach) {
+        this.email = email;
+        this.userName = userName;
+        this.password = password;
+        this.accountType = accountType;
+        this.street = street;
+        this.number = number;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.coordinates = coordinates;
+        this.agreedConditions = agreedConditions;
+        this.phone = phone;
+        this.sporter = sporter;
+        this.coach = coach;
+    }
 }

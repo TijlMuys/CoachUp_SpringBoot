@@ -1,10 +1,13 @@
 package be.ehb.trends3.coachupbackend.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
 
+@Entity
 public class TrainEntry {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -15,14 +18,17 @@ public class TrainEntry {
     @Temporal(TemporalType.TIMESTAMP)
     Date meetingDateTime;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn
     private Coach coach;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn
     private Sporter sporter;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn
     private Location trainLocation;
@@ -67,6 +73,13 @@ public class TrainEntry {
     }
 
     public void setTrainLocation(Location trainLocation) {
+        this.trainLocation = trainLocation;
+    }
+
+    public TrainEntry(Date meetingDateTime, Coach coach, Sporter sporter, Location trainLocation) {
+        this.meetingDateTime = meetingDateTime;
+        this.coach = coach;
+        this.sporter = sporter;
         this.trainLocation = trainLocation;
     }
 }

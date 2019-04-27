@@ -1,12 +1,16 @@
 package be.ehb.trends3.coachupbackend.Controllers;
 
+import be.ehb.trends3.coachupbackend.Exceptions.CoachNotFoundException;
 import be.ehb.trends3.coachupbackend.Exceptions.SporterNotFoundException;
 import be.ehb.trends3.coachupbackend.Exceptions.NotLoggedInException;
+import be.ehb.trends3.coachupbackend.Models.Coach;
 import be.ehb.trends3.coachupbackend.Models.Sporter;
 import be.ehb.trends3.coachupbackend.Repositories.SporterRepository;
 import be.ehb.trends3.coachupbackend.Services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 //@CrossOrigin(origins = "3000")
@@ -38,6 +42,21 @@ public class SporterController {
             throw new NotLoggedInException();
         }
         return sporterRepository.findById(Id).orElseThrow(SporterNotFoundException::new);
+    }
+
+    @GetMapping("/search/{accountId}")
+    public Sporter findByAccountId (@RequestHeader String authToken, @PathVariable String accountId)
+    {
+        if(! authenticationService.isLoggedIn(authToken))
+        {
+            throw new NotLoggedInException();
+        }
+        List<Sporter> sporterList = sporterRepository.findSporterByAccountId(accountId);
+        if(sporterList.size() != 1) {
+            throw new SporterNotFoundException();
+        }
+        Sporter foundsporter = sporterList.get(0);
+        return foundsporter;
     }
 
     @PostMapping("")
