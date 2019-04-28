@@ -19,7 +19,7 @@ public class Rating {
 
     private String comment;
 
-    @JsonBackReference
+    @JsonBackReference(value = "coach_rating")
     @ManyToOne
     @JoinColumn
     private Coach coach;

@@ -1,7 +1,9 @@
 package be.ehb.trends3.coachupbackend.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class SportStatistic {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -16,14 +19,14 @@ public class SportStatistic {
     @Column(name = "PR_KEY")
     private String id;
 
-    @JsonManagedReference
+    //@JsonManagedReference(value = "sportstatistic_sport")
     @ManyToMany
     @JoinTable(name = "sportstatistic_sport",
             joinColumns = { @JoinColumn(name = "fk_sportstatistic") },
             inverseJoinColumns = { @JoinColumn(name = "fk_sport") })
     private List<Sport> sports = new ArrayList<Sport>();
 
-    @JsonBackReference
+    //@JsonBackReference(value = "sporter_sportstatistic")
     @ManyToMany(mappedBy="sportstatistics")
     private List<Sporter> sporters = new ArrayList<Sporter>();
 

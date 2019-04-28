@@ -1,7 +1,9 @@
 package be.ehb.trends3.coachupbackend.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class Sporter {
 
     @Id
@@ -23,33 +26,33 @@ public class Sporter {
 
     private String profileImg;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "sporter_account")
     @OneToOne(mappedBy = "sporter", cascade = CascadeType.ALL,
             fetch = FetchType.LAZY, optional = true)
     private Account account;
 
-    @JsonManagedReference
+    //@JsonManagedReference(value = "sporter_sport")
     @ManyToMany    @JoinTable(name = "sporter_sport",
             joinColumns = { @JoinColumn(name = "fk_sporter") },
             inverseJoinColumns = { @JoinColumn(name = "fk_sport") })
     private List<Sport> sports = new ArrayList<Sport>();
 
-    @JsonManagedReference
+    //@JsonManagedReference(value = "sporter_sportstatistic")
     @ManyToMany
     @JoinTable(name = "sporter_sportstatistics",
             joinColumns = { @JoinColumn(name = "fk_sporter") },
             inverseJoinColumns = { @JoinColumn(name = "fk_sportstatistics") })
     private List<SportStatistic> sportstatistics = new ArrayList<SportStatistic>();
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "sporter_trainentry")
     @OneToMany(mappedBy = "sporter", cascade = CascadeType.ALL)
     private Set<TrainEntry> trainEntries;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "reqsporter_buddyentry")
     @OneToMany(mappedBy = "requestingsporter", cascade = CascadeType.ALL)
     private Set<BuddyEntry> buddyrequests;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "repsporter_buddyentry")
     @OneToMany(mappedBy = "replyingsporter", cascade = CascadeType.ALL)
     private Set<BuddyEntry> buddyreplies;
 

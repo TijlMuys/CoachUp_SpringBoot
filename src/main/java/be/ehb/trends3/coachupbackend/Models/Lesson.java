@@ -27,12 +27,12 @@ public class Lesson {
     @NotNull
     private int difficulty;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "lesson_location")
     @ManyToOne
     @JoinColumn
     private Location lessonLocation;
 
-    @JsonBackReference
+    @JsonBackReference(value = "coach_lesson")
     @ManyToOne
     @JoinColumn(name = "coach_key")
     private Coach coach;
@@ -40,7 +40,7 @@ public class Lesson {
     @Column(name = "coach_key", insertable = false, updatable = false)
     private String coach_key;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "lesson_sport")
     @ManyToOne
     @JoinColumn
     private Sport sport;

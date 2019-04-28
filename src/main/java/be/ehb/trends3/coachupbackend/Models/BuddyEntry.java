@@ -20,17 +20,17 @@ public class BuddyEntry {
 
     boolean isApproved;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "buddyentry_location")
     @ManyToOne
     @JoinColumn
     private Location buddyLocation;
 
-    @JsonBackReference
+    @JsonBackReference(value = "reqsporter_buddyentry")
     @ManyToOne
     @JoinColumn
     private Sporter requestingsporter;
 
-    @JsonBackReference
+    @JsonBackReference(value = "repsporter_buddyentry")
     @ManyToOne
     @JoinColumn
     private Sporter replyingsporter;

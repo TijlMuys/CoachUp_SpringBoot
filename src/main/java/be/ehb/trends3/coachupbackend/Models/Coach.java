@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,20 +21,20 @@ public class Coach {
 
     private String profileImg;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "coach_account")
     @OneToOne(mappedBy = "coach", cascade = CascadeType.ALL,
             fetch = FetchType.LAZY, optional = true)
     private Account account;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "coach_rating")
     @OneToMany(mappedBy = "coach", cascade = CascadeType.ALL)
     private Set<Rating> ratings;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "coach_lesson")
     @OneToMany(mappedBy = "coach", cascade = CascadeType.ALL)
-    private Set<Lesson> lessons;
+    private List<Lesson> lessons;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "coach_trainentry")
     @OneToMany(mappedBy = "coach", cascade = CascadeType.ALL)
     private Set<TrainEntry> trainEntries;
 
@@ -89,11 +90,11 @@ public class Coach {
         this.ratings = ratings;
     }
 
-    public Set<Lesson> getLessons() {
+    public List<Lesson> getLessons() {
         return lessons;
     }
 
-    public void setLessons(Set<Lesson> lessons) {
+    public void setLessons(List<Lesson> lessons) {
         this.lessons = lessons;
     }
 
@@ -105,7 +106,7 @@ public class Coach {
         this.trainEntries = trainEntries;
     }
 
-    public Coach(String profileText, Account account, Set<Rating> ratings, Set<Lesson> lessons, Set<TrainEntry> trainEntries) {
+    public Coach(String profileText, Account account, Set<Rating> ratings, List<Lesson> lessons, Set<TrainEntry> trainEntries) {
         this.profileText = profileText;
         this.account = account;
         this.ratings = ratings;

@@ -1,13 +1,16 @@
 package be.ehb.trends3.coachupbackend.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Location {
 
     @Id
@@ -30,19 +33,22 @@ public class Location {
 
     private String coordinates;
 
-    @JsonBackReference
+    @JsonBackReference(value = "lesson_location")
     @OneToMany(mappedBy = "lessonLocation", cascade = CascadeType.ALL)
     private Set<Lesson> lessons;
 
-    @JsonBackReference
+    @JsonBackReference(value = "trainentry_location")
     @OneToMany(mappedBy = "trainLocation", cascade = CascadeType.ALL)
     private Set<TrainEntry> trainentries;
 
-    @JsonBackReference
+    @JsonBackReference(value = "buddyentry_location")
     @OneToMany(mappedBy = "buddyLocation", cascade = CascadeType.ALL)
     private Set<BuddyEntry> buddyentries;
 
     public Location() {
+        this.lessons = new HashSet<Lesson>();
+        this.trainentries = new HashSet<TrainEntry>();
+        this.buddyentries = new HashSet<BuddyEntry>();
     }
 
     public String getId() {
@@ -114,17 +120,6 @@ public class Location {
     }
 
     public void setBuddyentries(Set<BuddyEntry> buddyentries) {
-        this.buddyentries = buddyentries;
-    }
-
-    public Location(@NotNull String street, @NotNull String number, @NotNull String zipCode, @NotNull String city, String coordinates, Set<Lesson> lessons, Set<TrainEntry> trainentries, Set<BuddyEntry> buddyentries) {
-        this.street = street;
-        this.number = number;
-        this.zipCode = zipCode;
-        this.city = city;
-        this.coordinates = coordinates;
-        this.lessons = lessons;
-        this.trainentries = trainentries;
         this.buddyentries = buddyentries;
     }
 }

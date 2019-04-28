@@ -1,6 +1,8 @@
 package be.ehb.trends3.coachupbackend.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class Sport {
     @Id
     @NotNull
@@ -18,15 +21,15 @@ public class Sport {
     //Images provided by unsplash
     private String imageUrl;
 
-    @JsonBackReference
+    @JsonBackReference(value = "lesson_sport")
     @OneToMany(mappedBy = "sport", cascade = CascadeType.ALL)
     private List<Lesson> lessons = new ArrayList<Lesson>();
 
-    @JsonBackReference
+    @JsonBackReference(value = "sporter_sport")
     @ManyToMany(mappedBy="sports")
     private List<Sporter> sporters = new ArrayList<Sporter>();
 
-    @JsonBackReference
+    //@JsonBackReference(value = "sportstatistic_sport")
     @ManyToMany(mappedBy="sports")
     private List<SportStatistic> sportStatistics = new ArrayList<SportStatistic>();
 

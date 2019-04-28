@@ -52,13 +52,13 @@ public class Account {
     private String phone;
 
 
-    @JsonBackReference
+    @JsonBackReference(value = "sporter_account")
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sporter_id")
     private Sporter sporter;
 
 
-    @JsonBackReference
+    @JsonBackReference(value = "coach_account")
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "coach_id")
     private Coach coach;

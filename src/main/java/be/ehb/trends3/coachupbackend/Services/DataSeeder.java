@@ -43,6 +43,13 @@ public class DataSeeder implements CommandLineRunner {
         location1.setCity("Mechelen");
         locationRepos.save(location1);
 
+        Location location2 = new Location();
+        location2.setStreet("Zandstraat");
+        location2.setNumber("3");
+        location2.setZipCode("1980");
+        location2.setCity("Hofstade");
+        locationRepos.save(location2);
+
         //Sports
         Sport wrestling = new Sport("Wrestling", "https://images.unsplash.com/photo-1541337082051-5959dbb57d5d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80");
         sportRepos.save(wrestling);
@@ -202,8 +209,17 @@ public class DataSeeder implements CommandLineRunner {
         lesson2.setLessonLocation(location1);
         lessonRepos.save(lesson2);
 
+        Lesson lesson3 = new Lesson();
+        lesson3.setDifficulty(4);
+        lesson3.setLessonName("Crawl Advanced");
+        lesson3.setLessonDescription("In this lesson we will further optimize the stroke techniques when swimming for long distances at high speeds.");
+        lesson3.setSport(swimming);
+        lesson3.setCoach(coach);
+        lesson3.setLessonLocation(location2);
+        lessonRepos.save(lesson3);
+
         Sporter sporter = new Sporter();
-        sporter.setProfileText("Ik ben een testcoach");
+        sporter.setProfileText("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
         sporterRepos.save(sporter);
 
         List<Account> foundAccounts = (accountRepos.findAccountByEmail("testcoach@gmail.com"));

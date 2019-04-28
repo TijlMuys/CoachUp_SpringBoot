@@ -18,17 +18,17 @@ public class TrainEntry {
     @Temporal(TemporalType.TIMESTAMP)
     Date meetingDateTime;
 
-    @JsonBackReference
+    @JsonBackReference(value = "coach_trainentry")
     @ManyToOne
     @JoinColumn
     private Coach coach;
 
-    @JsonBackReference
+    @JsonBackReference(value = "sporter_trainentry")
     @ManyToOne
     @JoinColumn
     private Sporter sporter;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "trainentry_location")
     @ManyToOne
     @JoinColumn
     private Location trainLocation;
