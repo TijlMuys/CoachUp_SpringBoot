@@ -51,6 +51,16 @@ public class LessonController {
         return lessonRepository.findById(Id).orElseThrow(LessonNotFoundException::new);
     }
 
+    @GetMapping("search/{sport}")
+    public Iterable<Lesson> findBySport (@RequestHeader String authToken, @PathVariable String sport)
+    {
+        if(! authenticationService.isLoggedIn(authToken))
+        {
+            throw new NotLoggedInException();
+        }
+        return lessonRepository.findLessonsBySport_SportNameIsLike(sport);
+    }
+
     @PostMapping("/create")
     public Lesson createNew (@RequestHeader String authToken, @RequestBody LessonNewRequest lessonNewRequest)
     {

@@ -34,6 +34,9 @@ public class Sport {
     private List<SportStatistic> sportStatistics = new ArrayList<SportStatistic>();
 
 
+    @JsonBackReference(value = "buddyentry_sport")
+    @OneToMany(mappedBy = "sport", cascade = CascadeType.ALL)
+    private List<BuddyEntry> buddyEntries = new ArrayList<BuddyEntry>();
 
 
     public Sport() {
@@ -94,5 +97,13 @@ public class Sport {
         this.sporters = sporters;
         this.sportStatistics = sportStatistics;
         this.imageUrl = imageUrl;
+    }
+
+    public List<BuddyEntry> getBuddyEntries() {
+        return buddyEntries;
+    }
+
+    public void setBuddyEntries(List<BuddyEntry> buddyEntries) {
+        this.buddyEntries = buddyEntries;
     }
 }

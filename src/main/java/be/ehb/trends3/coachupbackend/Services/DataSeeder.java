@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -30,6 +32,9 @@ public class DataSeeder implements CommandLineRunner {
     private LessonRepository lessonRepos;
 
     @Autowired
+    private BuddyEntryRepository buddyEntryRepos;
+
+    @Autowired
     private AccountRepository accountRepos;
 
 
@@ -49,6 +54,20 @@ public class DataSeeder implements CommandLineRunner {
         location2.setZipCode("1980");
         location2.setCity("Hofstade");
         locationRepos.save(location2);
+
+        Location location3 = new Location();
+        location3.setStreet("Putstraat");
+        location3.setNumber("6");
+        location3.setZipCode("9940");
+        location3.setCity("Sleidinge");
+        locationRepos.save(location3);
+
+        Location location4 = new Location();
+        location4.setStreet("Krijgslaan");
+        location4.setNumber("281");
+        location4.setZipCode("9000");
+        location4.setCity("Gent");
+        locationRepos.save(location4);
 
         //Sports
         Sport wrestling = new Sport("Wrestling", "https://images.unsplash.com/photo-1541337082051-5959dbb57d5d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80");
@@ -191,6 +210,16 @@ public class DataSeeder implements CommandLineRunner {
         coach.setProfileImg("https://images.unsplash.com/photo-1457470572216-1240fac24b37?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80");
         coachRepos.save(coach);
 
+        Coach coach2 = new Coach();
+        coach2.setProfileText("Vivamus tincidunt vehicula tincidunt. Integer et turpis malesuada, vulputate libero nec, cursus dolor. Etiam eleifend laoreet pharetra. Pellentesque hendrerit ipsum at cursus porta. Aenean odio mi, vehicula et sapien quis, porta congue eros. Quisque quam eros, dapibus ut turpis non, ultrices faucibus diam. Vestibulum aliquam at sapien sed accumsan. Proin sit amet lacus bibendum, blandit lectus nec, vehicula elit. Proin mattis, lorem id imperdiet cursus, metus odio suscipit magna, sed consequat est lorem ac ipsum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed egestas ac magna nec vehicula. Suspendisse mi magna, dapibus quis pretium ac, ullamcorper eu ex. Pellentesque commodo sapien id erat laoreet, commodo feugiat arcu euismod. Nullam ut egestas dui, auctor mattis massa. Aenean bibendum iaculis porttitor. Nullam a tortor sed augue pretium pretium nec at ipsum.");
+        coach2.setProfileImg("https://images.unsplash.com/photo-1529025147382-f2d265c8149c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=925&q=80");
+        coachRepos.save(coach2);
+
+        Sporter sporter = new Sporter();
+        sporter.setProfileText("Maecenas euismod lacinia tellus, aliquam vehicula nunc venenatis tincidunt. Sed et urna fermentum, accumsan libero vel, vestibulum tellus. Mauris in pharetra dui. Nam nec arcu elit. Etiam id odio ut dui tincidunt feugiat in et purus. Etiam elementum, tellus non vestibulum semper, orci arcu faucibus nibh, sed ultricies enim dui vestibulum odio. Integer eu euismod elit, auctor tincidunt sem. Nullam a dolor ut nulla aliquet rhoncus et ac leo.");
+        sporter.setProfileImg("https://images.unsplash.com/photo-1496061621978-5f5dc4641a9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80");
+        sporterRepos.save(sporter);
+
         Lesson lesson = new Lesson();
         lesson.setDifficulty(3);
         lesson.setLessonName("Soccer Skills Advanced");
@@ -218,15 +247,45 @@ public class DataSeeder implements CommandLineRunner {
         lesson3.setLessonLocation(location2);
         lessonRepos.save(lesson3);
 
-        Sporter sporter = new Sporter();
-        sporter.setProfileText("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-        sporterRepos.save(sporter);
+        Sporter sporter2 = new Sporter();
+        sporter2.setProfileText("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+        sporterRepos.save(sporter2);
+
+        //Date format
+        SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-DD'T'hh:mm:ss.ms");
+
+        BuddyEntry buddyentry = new BuddyEntry();
+        buddyentry.setBuddyEntryTitle("Jogging Together");
+        buddyentry.setBuddyEntryDescription("I'm searching for someone in the area to go jogging with, I don't have much experience but I'll try my best to keep up.");
+        buddyentry.setBuddyLocation(location3);
+        buddyentry.setRequestingsporter(sporter2);
+        buddyentry.setMeetingDateTime(format.parse("2020-01-02T11:42:13.510"));
+        buddyentry.setSport(running);
+        buddyentry.setDifficulty(1);
+        buddyEntryRepos.save(buddyentry);
+
+        BuddyEntry buddyentry2 = new BuddyEntry();
+        buddyentry2.setBuddyEntryTitle("Playing Table Tennis");
+        buddyentry2.setBuddyEntryDescription("I'm searching for someone in the area to play some table tennis with, just trying to be active without overexerting myself.");
+        buddyentry2.setBuddyLocation(location4);
+        buddyentry2.setRequestingsporter(sporter2);
+        buddyentry2.setMeetingDateTime(format.parse("2019-08-02T11:42:13.510"));
+        buddyentry2.setSport(tableTennis);
+        buddyentry2.setDifficulty(1);
+        buddyEntryRepos.save(buddyentry2);
 
         List<Account> foundAccounts = (accountRepos.findAccountByEmail("testcoach@gmail.com"));
         if(foundAccounts.size() != 1){
             Account coachAccount = new Account("testcoach@gmail.com", "Test Coach", "$2a$10$f7sHcIdjKvMTGkc.8dJUFe9n.Qoaa9fvO2WzLqpZEsCalLkGGYtri", "coach", "Rue Henri Lambert", "182", "3500", "Hasselt", null, true, "0490 61 78002", null, coach);
             accountRepos.save(coachAccount);
         }
+
+        List<Account> foundAccounts1 = (accountRepos.findAccountByEmail("doc.louis@gmail.com"));
+        if(foundAccounts1.size() != 1){
+            Account coachAccount2 = new Account("doc.louis@gmail.com", "Doc Louis", "$2a$10$f7sHcIdjKvMTGkc.8dJUFe9n.Qoaa9fvO2WzLqpZEsCalLkGGYtri", "coach", "Tiegemberg", "402", "5670", "Treignes", null, true, "0471 96 74245", null, coach2);
+            accountRepos.save(coachAccount2);
+        }
+
 
         List<Account> foundAccounts2 = (accountRepos.findAccountByEmail("testsporter@gmail.com"));
         if(foundAccounts2.size() != 1) {
@@ -236,8 +295,14 @@ public class DataSeeder implements CommandLineRunner {
 
         List<Account> foundAccounts3 = (accountRepos.findAccountByEmail("admin@gmail.com"));
         if(foundAccounts3.size() != 1) {
-            Account adminAccount = new Account("admin@gmail.com", "Admin", "$2a$10$f7sHcIdjKvMTGkc.8dJUFe9n.Qoaa9fvO2WzLqpZEsCalLkGGYtri", "regular", "Rue de Fromelenne", "407", "9000", "Gent", null, true, null, sporter, null);
+            Account adminAccount = new Account("admin@gmail.com", "Admin", "$2a$10$f7sHcIdjKvMTGkc.8dJUFe9n.Qoaa9fvO2WzLqpZEsCalLkGGYtri", "admin", "Rue de Fromelenne", "407", "9000", "Gent", null, true, "0485 99 33687", sporter, null);
             accountRepos.save(adminAccount);
+        }
+
+        List<Account> foundAccounts4 = (accountRepos.findAccountByEmail("bob@gmail.com"));
+        if(foundAccounts4.size() != 1) {
+            Account sporterAccount2 = new Account("bob@gmail.com", "Bob Lemelin", "$2a$10$f7sHcIdjKvMTGkc.8dJUFe9n.Qoaa9fvO2WzLqpZEsCalLkGGYtri", "regular", "Hauwaart", "452", "9310", "Meldert", null, true, null, sporter2, null);
+            accountRepos.save(sporterAccount2);
         }
 
 
