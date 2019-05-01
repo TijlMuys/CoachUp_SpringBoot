@@ -5,6 +5,7 @@ import be.ehb.trends3.coachupbackend.Exceptions.SporterNotFoundException;
 import be.ehb.trends3.coachupbackend.Exceptions.NotLoggedInException;
 import be.ehb.trends3.coachupbackend.Models.Coach;
 import be.ehb.trends3.coachupbackend.Models.Sporter;
+import be.ehb.trends3.coachupbackend.Models.SporterUpdateRequest;
 import be.ehb.trends3.coachupbackend.Repositories.SporterRepository;
 import be.ehb.trends3.coachupbackend.Services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +86,23 @@ public class SporterController {
         }
 
         return sporterRepository.save(sporter);
+    }
+
+    @PostMapping("/update")
+    public Sporter updateProfile (@RequestHeader String authToken, @RequestBody SporterUpdateRequest sporterUpdateRequest)
+    {
+        if(! authenticationService.isLoggedIn(authToken))
+        {
+            throw new NotLoggedInException();
+        }
+
+        //Find Sporter
+        Sporter foundsporter = sporterRepository.findById(sporterUpdateRequest.getId()).orElseThrow(SporterNotFoundException::new);
+        //update Sporter
+        foundsporter.setProfileText(sporterUpdateRequest.getProfileText());
+        foundsporter.setProfileImg(sporterUpdateRequest.getProfileImg());
+
+        return sporterRepository.save(foundsporter);
     }
 
     @DeleteMapping("/{Id}")

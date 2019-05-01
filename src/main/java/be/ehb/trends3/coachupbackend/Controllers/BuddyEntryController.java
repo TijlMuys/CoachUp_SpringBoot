@@ -57,6 +57,16 @@ public class BuddyEntryController {
         return buddyEntryRepository.findById(Id).orElseThrow(BuddyEntryNotFoundException::new);
     }
 
+    @GetMapping("search/{sport}")
+    public Iterable<BuddyEntry> findBySport (@RequestHeader String authToken, @PathVariable String sport)
+    {
+        if(! authenticationService.isLoggedIn(authToken))
+        {
+            throw new NotLoggedInException();
+        }
+        return buddyEntryRepository.findBuddyEntriesBySport_SportNameIsLike(sport);
+    }
+
     @PostMapping("")
     public BuddyEntry create (@RequestHeader String authToken, @RequestBody BuddyEntry buddyEntry)
     {

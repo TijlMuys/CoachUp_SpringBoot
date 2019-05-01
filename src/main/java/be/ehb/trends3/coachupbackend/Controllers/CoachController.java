@@ -3,6 +3,7 @@ package be.ehb.trends3.coachupbackend.Controllers;
 import be.ehb.trends3.coachupbackend.Exceptions.NotLoggedInException;
 import be.ehb.trends3.coachupbackend.Exceptions.CoachNotFoundException;
 import be.ehb.trends3.coachupbackend.Models.Coach;
+import be.ehb.trends3.coachupbackend.Models.CoachUpdateRequest;
 import be.ehb.trends3.coachupbackend.Repositories.CoachRepository;
 import be.ehb.trends3.coachupbackend.Services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,23 @@ public class CoachController {
         }
 
         return coachRepository.save(coach);
+    }
+
+    @PostMapping("/update")
+    public Coach updateProfile (@RequestHeader String authToken, @RequestBody CoachUpdateRequest coachUpdateRequest)
+    {
+        if(! authenticationService.isLoggedIn(authToken))
+        {
+            throw new NotLoggedInException();
+        }
+
+        //Find Coach
+        Coach foundcoach = coachRepository.findById(coachUpdateRequest.getId()).orElseThrow(CoachNotFoundException::new);
+        //update Coach
+        foundcoach.setProfileText(coachUpdateRequest.getProfileText());
+        foundcoach.setProfileImg(coachUpdateRequest.getProfileImg());
+
+        return coachRepository.save(foundcoach);
     }
 
     @DeleteMapping("/{Id}")
